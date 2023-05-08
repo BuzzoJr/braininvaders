@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     {
         State = newState;
 
+        Debug.Log(newState);
+
         switch(newState)
         {
             case GameState.Menu:

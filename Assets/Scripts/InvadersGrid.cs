@@ -17,6 +17,7 @@ public class InvadersGrid : MonoBehaviour
     public float missileAttackRate = 1.5f;
     public ProjectileController missilePrefab;
     public TextMeshProUGUI scoreText;
+    private AudioSource explosionAudio;
     private int totalScore = 0;
     private Vector3 _direction = Vector3.right;
     private bool stateIsPlaying;
@@ -26,6 +27,7 @@ public class InvadersGrid : MonoBehaviour
     {
         GameManager.OnGameStateChange += GameManagerOnGameStateChange;
         currentScene = SceneManager.GetActiveScene();
+        explosionAudio = GetComponent<AudioSource>();
         for (int row = 0; row < this.rows; row++){
             float width = 2f * (this.columns -1);
             float height = 2f * (this.rows -1);
@@ -79,10 +81,11 @@ public class InvadersGrid : MonoBehaviour
                 {
                     continue;
                 }
-                if(_direction == Vector3.right && invader.position.x >= (rightEdge.x -1f))
+                if(_direction == Vector3.right && invader.position.x >= (rightEdge.x -12f))
                 {
                     AdvanceRow();
-                }else if(_direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
+                }
+                else if(_direction == Vector3.left && invader.position.x <= (leftEdge.x + 12f))
                 {
                     AdvanceRow();
                 }
@@ -101,6 +104,7 @@ public class InvadersGrid : MonoBehaviour
     private void InvaderKilled(Invader deadInvader)
     {
         int scoreAwarded = deadInvader.scoreValue;
+        explosionAudio.Play();
         if (currentScene.name == "Level3 - ADHD")
         {
             scoreAwarded *= 927;
