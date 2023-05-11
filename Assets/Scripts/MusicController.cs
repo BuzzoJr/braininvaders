@@ -40,13 +40,13 @@ public class MusicController : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (SceneManager.GetActiveScene().name == "Level2 - Autism" || SceneManager.GetActiveScene().name == "Level1 - Base")
-        {
-            timeIncreaseMod = 0.85f;
-        }else if (SceneManager.GetActiveScene().name == "Level3 - ADHD")
+        if (SceneManager.GetActiveScene().name == "Level3 - ADHD")
         {
             timeIncreaseMod = 1f;
             timeBetweenClips = 0.378f;
+        } else
+        {
+            timeIncreaseMod = 0.85f;
         }
         StartCoroutine(PlayClips());
     }

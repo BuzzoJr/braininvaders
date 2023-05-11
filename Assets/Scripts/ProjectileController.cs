@@ -8,11 +8,15 @@ public class ProjectileController : MonoBehaviour
     public Vector3 direction;
     public float speed;
     public System.Action destroyed;
+    public GameObject spriteMaskPrefab;
     private int objectLayer;
     private string layerName;
     private Scene currentScene;
     private SpriteRenderer spriteRenderer;
     private bool stateIsPlaying = true;
+    private Collider2D thisCollider;
+    private int isInMask = 0;
+    private bool inBunker = false;
     // Start is called before the first frame update
 
     void Awake()
@@ -22,6 +26,7 @@ public class ProjectileController : MonoBehaviour
         layerName = LayerMask.LayerToName(objectLayer);
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameManager.OnGameStateChange += GameManagerOnGameStateChange;
+        thisCollider = GetComponent<Collider2D>();
 
         if (currentScene.name == "Level2 - Autism")
         {
@@ -69,10 +74,66 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(destroyed != null)
+        if (other.transform.gameObject.layer == 12)
         {
-        this.destroyed.Invoke();
+            isInMask++;
         }
-        Destroy(this.gameObject);
+        else if (other.transform.gameObject.layer == 13)
+        {
+            inBunker = true;
+            if (isInMask == 0)
+            {
+                if (destroyed != null)
+                {
+                    this.destroyed.Invoke();
+                }
+                CreateMask();
+                Destroy(this.gameObject);
+            }
+        }
+        else
+        {
+            if (destroyed != null)
+            {
+                this.destroyed.Invoke();
+            }
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        
+        if (other.transform.gameObject.layer == 12)
+        {
+            isInMask--;
+            if (inBunker && isInMask == 0)
+            {
+                if (destroyed != null)
+                {
+                    this.destroyed.Invoke();
+                }
+                CreateMask();
+                Destroy(this.gameObject);
+            }
+        }
+        else if (other.transform.gameObject.layer == 13)
+        {
+            inBunker = false;
+        } 
+    }
+
+    private void CreateMask()
+    {
+        Vector3 spawnPosition = transform.position;
+        if (layerName == "Missile")
+        {
+            spawnPosition.y -= 0.20f;
+        }
+        else
+        {
+            spawnPosition.y -= 0.15f;
+        }
+        Instantiate(spriteMaskPrefab, spawnPosition, Quaternion.identity);
     }
 }

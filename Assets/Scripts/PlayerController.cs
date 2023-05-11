@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private int lives = 3;
     private SpriteRenderer playerSpriteRenderer;
     private bool immortal = false;
+    private Vector3 oldPosition;
 
     void Awake()
     {
@@ -47,6 +48,9 @@ public class PlayerController : MonoBehaviour
         if(currentScene.name == "Level3 - ADHD")
         {
             speed *= 4f;
+        }else if (currentScene.name == "Level4 - Anxiety")
+        {
+            StartCoroutine(AnxietyLag());
         }
     }
 
@@ -68,14 +72,6 @@ public class PlayerController : MonoBehaviour
                     this.transform.position += Vector3.right * this.speed * Time.deltaTime;
                 }
             }
-            //else if (currentScene.name == "Level3 - ADHD" && Input.GetKey(KeyCode.S)) 
-            //{
-            //    this.transform.position += Vector3.down * this.speed * Time.deltaTime;
-            //}
-            //else if (currentScene.name == "Level3 - ADHD" && Input.GetKey(KeyCode.W))
-            //{
-            //    this.transform.position += Vector3.up * this.speed * Time.deltaTime;
-            //}
 
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
@@ -119,7 +115,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                GameManager.Instance.UpdateGameState(GameManager.GameState.GameOver);
             }
         }
     }
@@ -146,5 +142,33 @@ public class PlayerController : MonoBehaviour
         }
         playerSpriteRenderer.enabled = true; // make sure the player is visible again
         immortal = false;
+    }
+
+    private IEnumerator AnxietyLag()
+    {
+        float minTime = 5.3f;
+        while(true)
+        {
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                if(oldPosition != Vector3.zero)
+                {
+                    this.transform.position = oldPosition;
+                    oldPosition = Vector3.zero;
+                    if (minTime > 0.3f)
+                    {
+                        minTime -= 0.5f;
+                    }
+                    yield return new WaitForSeconds(Random.Range(minTime, minTime + 0.7f));
+                }
+                else
+                {
+                    oldPosition = this.transform.position;
+                }
+            }
+        
+            yield return new WaitForSeconds(Random.Range(0.05f, 0.3f));
+
+        }
     }
 }

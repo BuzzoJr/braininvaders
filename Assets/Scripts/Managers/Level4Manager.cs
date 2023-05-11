@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Level1Manager : MonoBehaviour
+public class Level4Manager : MonoBehaviour
 {
     public DialogController dialogController;
     // Start is called before the first frame update

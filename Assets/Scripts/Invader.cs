@@ -13,12 +13,13 @@ public class Invader : MonoBehaviour
     public ExplosionController explosion;
     private bool stateIsPlaying;
     public int scoreValue = 10;
+    private Scene currentScene;
 
     // Start is called before the first frame update
     void Awake()
     {
         GameManager.OnGameStateChange += GameManagerOnGameStateChange;
-        Scene currentScene = SceneManager.GetActiveScene();
+        currentScene = SceneManager.GetActiveScene();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (currentScene.name == "Level2 - Autism")
         {
@@ -93,7 +94,11 @@ public class Invader : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
-            Instantiate(explosion, transform.position, transform.rotation);
+            var explosionSprite = Instantiate(explosion, transform.position, transform.rotation);
+            if (currentScene.name == "Level2 - Autism")
+            {
+                explosionSprite.GetComponent<SpriteRenderer>().color = new Color(0.73f, 0.73f, 0.73f);
+            }
             this.killed.Invoke(this);
             this.gameObject.SetActive(false);
         }

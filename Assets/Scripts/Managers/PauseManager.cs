@@ -30,7 +30,10 @@ public class PauseManager : MonoBehaviour
         else
         {
             transform.GetChild(0).gameObject.SetActive(false);
-            isPaused = false;
+            if(currentState == "GameOver")
+            {
+                isPaused = false;
+            }
         }
     }
     // Start is called before the first frame update

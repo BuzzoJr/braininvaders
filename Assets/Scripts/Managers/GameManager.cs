@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
     {
         State = newState;
 
-        Debug.Log(newState);
-
         switch(newState)
         {
             case GameState.Menu:
@@ -48,7 +46,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Pausing: 
                 break;
-            case GameState.Victory: 
+            case GameState.Victory:
+                break;
+            case GameState.GameOver:
                 break;
         }
 
@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
         Dialog,
         Playing,
         Pausing,
-        Victory
+        Victory,
+        GameOver
     }
 }

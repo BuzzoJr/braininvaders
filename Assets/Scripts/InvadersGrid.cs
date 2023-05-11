@@ -14,7 +14,7 @@ public class InvadersGrid : MonoBehaviour
     public int totalInvaders => rows * columns;
     public int amountAlive => totalInvaders - amountKilled;
     public float percentKilled => (float)amountKilled / (float)totalInvaders;
-    public float missileAttackRate = 1.5f;
+    public float missileAttackRate = 0.5f;
     public ProjectileController missilePrefab;
     public TextMeshProUGUI scoreText;
     private AudioSource explosionAudio;
@@ -28,6 +28,7 @@ public class InvadersGrid : MonoBehaviour
         GameManager.OnGameStateChange += GameManagerOnGameStateChange;
         currentScene = SceneManager.GetActiveScene();
         explosionAudio = GetComponent<AudioSource>();
+        AdhdEnemyController.hitEnemy += ScoreAdhd;
         for (int row = 0; row < this.rows; row++){
             float width = 2f * (this.columns -1);
             float height = 2f * (this.rows -1);
@@ -44,6 +45,7 @@ public class InvadersGrid : MonoBehaviour
     }
     void OnDestroy()
     {
+        AdhdEnemyController.hitEnemy -= ScoreAdhd;
         GameManager.OnGameStateChange -= GameManagerOnGameStateChange;
     }
 
@@ -104,11 +106,14 @@ public class InvadersGrid : MonoBehaviour
     private void InvaderKilled(Invader deadInvader)
     {
         int scoreAwarded = deadInvader.scoreValue;
-        explosionAudio.Play();
-        if (currentScene.name == "Level3 - ADHD")
+        if (currentScene.name != "Level3 - ADHD")
         {
-            scoreAwarded *= 927;
+            explosionAudio.Play();
         }
+        //if (currentScene.name == "Level3 - ADHD")
+        //{
+        //    scoreAwarded *= 927;
+        //}
         totalScore += scoreAwarded;
         scoreText.text = "Score: " + totalScore;
         amountKilled++;
@@ -116,6 +121,12 @@ public class InvadersGrid : MonoBehaviour
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
         }
+    }
+
+    private void ScoreAdhd(AdhdEnemyController adhdEnemy)
+    {
+        totalScore += Random.Range(750, 999);
+        scoreText.text = "Score: " + totalScore;
     }
 
     public void MissileAttack()
