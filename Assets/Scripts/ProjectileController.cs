@@ -39,7 +39,7 @@ public class ProjectileController : MonoBehaviour
                 spriteRenderer.color = new Color(0.73f, 0.73f, 0.73f);
             }
         }
-        if(currentScene.name != "Level3 - ADHD" && layerName == "Laser")
+        if(currentScene.name != "Level3 - ADHD" && currentScene.name != "Level5 - Depression" && layerName == "Laser")
         {
             AudioSource audioSource = GetComponent<AudioSource>();
             audioSource.Play();

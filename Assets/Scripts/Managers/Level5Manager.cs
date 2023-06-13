@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Level1Manager : MonoBehaviour
+public class Level5Manager : MonoBehaviour
 {
     public DialogController dialogController;
     // Start is called before the first frame update
@@ -31,24 +31,22 @@ public class Level1Manager : MonoBehaviour
 
     private void PreLevelDialog()
     {
-        dialogController.lines = new string[5];
-        dialogController.lines[0] = "You control the green spaceship at the bottom.";
-        dialogController.lines[1] = "Your objective is to shoot and kill all the aliens on the screen before they kill you.";
-        dialogController.lines[2] = "They will slowly advance towards you and fire missiles at your spaceship.";
-        dialogController.lines[3] = "You have 3 chances.";
-        dialogController.lines[4] = "Good Luck.";
+        dialogController.lines = new string[4];
+        dialogController.lines[0] = "You are now facing the most challenging test of all: depression.";
+        dialogController.lines[1] = "Depression can make it difficult to find motivation or enjoyment in activities.";
+        dialogController.lines[2] = "Despite the overwhelming darkness, your objective remains the same: shoot and eliminate all the aliens before they overpower you.";
+        dialogController.lines[3] = "Remember to seek support if needed.";
 
         GameManager.Instance.UpdateGameState(GameManager.GameState.Dialog);
     }
 
     private void VictoryDialog()
     {
-        dialogController.lines = new string[5];
+        dialogController.lines = new string[4];
         dialogController.lines[0] = "Congratulations, human!";
-        dialogController.lines[1] = "You have successfully completed the first level of our tests.";
-        dialogController.lines[2] = "But don't get too comfortable just yet.";
-        dialogController.lines[3] = "The next level will present new challenges and test your skills even further.";
-        dialogController.lines[4] = "Prepare yourself, as the aliens will come at you relentlessly, inducing anxiety.";
+        dialogController.lines[1] = "You have shown incredible strength in facing the depths of depression.";
+        dialogController.lines[2] = "We hope this experience has brought you insight and empathy.";
+        dialogController.lines[3] = "While this concludes our tests, please remember that there is always help available if you or someone you know is struggling with depression.";
 
     }
 

@@ -54,16 +54,20 @@ public class Level3Manager : MonoBehaviour
     private void PreLevelDialog()
     {
         dialogController.lines = new string[3];
-        dialogController.lines[0] = "Now we will test your hability to focus.";
-        dialogController.lines[1] = "You will have to controll your impulsivity and manage to do the task.";
-        dialogController.lines[2] = "Remember, your objective is still to shoot and kill all the aliens before they kill you.";
+        dialogController.lines[0] = "Now we will test your ability to focus.";
+        dialogController.lines[1] = "You will need to exercise control over your impulses to complete the task successfully.";
+        dialogController.lines[2] = "Remember, your objective is still to shoot and eliminate all the aliens before they destroy your spaceship.";
         GameManager.Instance.UpdateGameState(GameManager.GameState.Dialog);
     }
 
     private void VictoryDialog()
     {
-        dialogController.lines = new string[1];
+        dialogController.lines = new string[3];
         dialogController.lines[0] = "Congratulations, human!";
+        dialogController.lines[1] = "We'll be altering your perception once again.";
+        dialogController.lines[2] = "You'll feel what it might be like to be an individual with autism.";
+
+
     }
 
     //IEnumerator ChangeLetter()

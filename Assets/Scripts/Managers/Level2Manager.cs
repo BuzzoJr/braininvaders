@@ -62,17 +62,19 @@ public class Level2Manager : MonoBehaviour
     {
         dialogController.lines = new string[3];
         dialogController.lines[0] = "We will test your Sensory Sentivity and Repetitive Behaviours";
-        dialogController.lines[1] = "We understand that this may be challenging, but we believe in your abilities.";
-        dialogController.lines[2] = "Remember, your objective is still to shoot and kill all the aliens before they kill you. Keep your focus and do your best.";
+        dialogController.lines[1] = "We understand that this may present challenges, but we have confidence in your abilities.";
+        dialogController.lines[2] = "Remember, your objective remains the same: shoot and eliminate all the aliens before they overpower you. Stay focused and do your best.";
         GameManager.Instance.UpdateGameState(GameManager.GameState.Dialog);
     }
 
     private void VictoryDialog()
     {
-        dialogController.lines = new string[3];
+        dialogController.lines = new string[4];
         dialogController.lines[0] = "Congratulations, human!";
-        dialogController.lines[1] = "You have successfully completed the first level of our tests.";
-        dialogController.lines[2] = "We'll be altering your perception to simulate what it might be like for an individual with ADHD.";
+        dialogController.lines[1] = "You have successfully completed the test that simulates what it might be like to experience autism.";
+        dialogController.lines[2] = "Your understanding and adaptability are commendable.";
+        dialogController.lines[3] = "Now, prepare yourself for the ultimate challenge";
+
     }
 
     IEnumerator ChangeLetter()
@@ -120,12 +122,15 @@ public class Level2Manager : MonoBehaviour
     {
         while (true)
         {
-            if (bloomEffect.threshold.value > 0)
+            if (stateIsPlaying)
             {
-                bloomEffect.threshold.value -= 0.05f;
+                if (bloomEffect.threshold.value > 0)
+                {
+                    bloomEffect.threshold.value -= 0.05f;
+                }
+                sceneSound.volume += 0.05f;
+                yield return new WaitForSeconds(0.5f);
             }
-            sceneSound.volume += 0.05f;
-            yield return new WaitForSeconds(0.5f);
         }
     }
 }
