@@ -82,7 +82,7 @@ public class DialogController : MonoBehaviour
         dialogSound.Stop();
     }
 
-    void NextLine() //Pula para proxima linha ou fecha caixa de diálogo
+    void NextLine() //Pula para proxima linha ou fecha caixa de diï¿½logo
     {
         if(index < lines.Length - 1)
         {
@@ -103,7 +103,11 @@ public class DialogController : MonoBehaviour
             else
             {
                 int currentScene = SceneManager.GetActiveScene().buildIndex;
-                SceneManager.LoadScene(currentScene + 1);
+                if(currentScene == 6){
+                    SceneManager.LoadScene(0);
+                }else{
+                    SceneManager.LoadScene(currentScene + 1);
+                }
             }
         }
     }

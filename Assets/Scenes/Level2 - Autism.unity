@@ -2854,7 +2854,7 @@ GameObject:
   - component: {fileID: 1681768538}
   - component: {fileID: 1681768537}
   m_Layer: 0
-  m_Name: MysteryShip
+  m_Name: MotherShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

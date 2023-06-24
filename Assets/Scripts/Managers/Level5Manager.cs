@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class Level5Manager : MonoBehaviour
 {
     public DialogController dialogController;
+    public GameObject postProcessing;
+    private AudioSource victoryMusic;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,6 +20,7 @@ public class Level5Manager : MonoBehaviour
     void Start()
     {
         PreLevelDialog();
+        victoryMusic = GetComponent<AudioSource>();
         //Invoke("PreLevelDialog", 1);
     }
 
@@ -26,6 +29,8 @@ public class Level5Manager : MonoBehaviour
         if (state.ToString() == "Victory")
         {
             VictoryDialog();
+            postProcessing.SetActive(false);
+            victoryMusic.Play();
         }
     }
 
@@ -43,7 +48,7 @@ public class Level5Manager : MonoBehaviour
     private void VictoryDialog()
     {
         dialogController.lines = new string[4];
-        dialogController.lines[0] = "Congratulations, human!";
+        dialogController.lines[0] = "CONGRATULATIONS, HUMAN!";
         dialogController.lines[1] = "You have shown incredible strength in facing the depths of depression.";
         dialogController.lines[2] = "We hope this experience has brought you insight and empathy.";
         dialogController.lines[3] = "While this concludes our tests, please remember that there is always help available if you or someone you know is struggling with depression.";

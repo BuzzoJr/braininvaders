@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level2 - Autism.unity
     guid: 7426c981963ac0547b9fb2026c57193b
+  - enabled: 1
+    path: Assets/Scenes/Level5 - Depression.unity
+    guid: 5ee60d96ff1339549b16bece6cf6f137
   m_configObjects: {}
