@@ -16,6 +16,7 @@ public class Level3Manager : MonoBehaviour
     public TextMeshProUGUI thoughtsText;
     private List<string> thoughtsList = new List<string>();
     private int thoughtIndex = 0;
+    private IEnumerator changeThoughtCoroutine;
     // Start is called before the first frame update
 
     void Awake()
@@ -32,16 +33,21 @@ public class Level3Manager : MonoBehaviour
     {
         if (state.ToString() == "Victory")
         {
+            StopCoroutine(changeThoughtCoroutine);
             VictoryDialog();
         }
         if (state.ToString() == "Playing")
         {
             backgoundMusic.Play();
             //StartCoroutine(ChangeLetter());
-            StartCoroutine(ChangeThought());
+            changeThoughtCoroutine = (ChangeThought());
         }
         else
         {
+            if(changeThoughtCoroutine != null)
+            {
+            StopCoroutine(changeThoughtCoroutine);
+            }
             backgoundMusic.Stop();
         }
     }

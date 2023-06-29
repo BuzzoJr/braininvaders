@@ -19,6 +19,8 @@ public class Level2Manager : MonoBehaviour
     private int index;
     private KeyCode currentKeyCode;
     private bool stateIsPlaying;
+    private int growingSoundLoop = 0;
+    private IEnumerator growingSoundCoroutine;
     // Start is called before the first frame update
 
     void Awake()
@@ -34,16 +36,20 @@ public class Level2Manager : MonoBehaviour
     {
         if (state.ToString() == "Victory")
         {
+            stateIsPlaying = false;
+            StopCoroutine(growingSoundCoroutine);
             VictoryDialog();
-        }
-        if (state.ToString() == "Playing")
+        }else if (state.ToString() == "Playing")
         {
             stateIsPlaying = true;
-            StartCoroutine(GrowingSound());
-            StartCoroutine(ChangeLetter());
+            growingSoundCoroutine = (GrowingSound());
         }
         else
         {
+            if(growingSoundCoroutine != null)
+            {
+            StopCoroutine(growingSoundCoroutine);
+            }
             stateIsPlaying = false;
         }
     }
@@ -77,23 +83,6 @@ public class Level2Manager : MonoBehaviour
 
     }
 
-    IEnumerator ChangeLetter()
-    {
-        while (true)
-        {
-            fontIndex = Random.Range(0, fontsList.Count);
-            TMP_FontAsset font = fontsList[fontIndex];
-            textMeshPro.font = font;
-
-
-            index = Random.Range(0, alphabet.Length);
-            textMeshPro.text = "Press " + alphabet[index];
-            currentKeyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), alphabet[index].ToString());
-            // Wait for 2 seconds before changing the color again
-            yield return new WaitForSeconds(5f);
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -122,15 +111,32 @@ public class Level2Manager : MonoBehaviour
     {
         while (true)
         {
+            growingSoundLoop++;
+            if (bloomEffect.threshold.value > 0)
+            {
+                bloomEffect.threshold.value -= 0.05f;
+            }
+            sceneSound.volume += 0.05f;
+
+            if(growingSoundLoop > 10){
+                growingSoundLoop = 0;
+                ChangeLetter();
+            }
             if (stateIsPlaying)
             {
-                if (bloomEffect.threshold.value > 0)
-                {
-                    bloomEffect.threshold.value -= 0.05f;
-                }
-                sceneSound.volume += 0.05f;
                 yield return new WaitForSeconds(0.5f);
             }
         }
+    }
+
+    void ChangeLetter(){
+        fontIndex = Random.Range(0, fontsList.Count);
+        TMP_FontAsset font = fontsList[fontIndex];
+        textMeshPro.font = font;
+
+
+        index = Random.Range(0, alphabet.Length);
+        textMeshPro.text = "Press " + alphabet[index];
+        currentKeyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), alphabet[index].ToString());
     }
 }
