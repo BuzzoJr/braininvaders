@@ -20,7 +20,7 @@ public class Level2Manager : MonoBehaviour
     private KeyCode currentKeyCode;
     private bool stateIsPlaying;
     private int growingSoundLoop = 0;
-    private IEnumerator growingSoundCoroutine;
+    private Coroutine growingSoundCoroutine;
     // Start is called before the first frame update
 
     void Awake()
@@ -42,7 +42,7 @@ public class Level2Manager : MonoBehaviour
         }else if (state.ToString() == "Playing")
         {
             stateIsPlaying = true;
-            growingSoundCoroutine = (GrowingSound());
+            growingSoundCoroutine = StartCoroutine(GrowingSound());
         }
         else
         {
