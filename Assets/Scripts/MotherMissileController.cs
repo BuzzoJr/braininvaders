@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MotherMissileController : MonoBehaviour
 {
+    private bool stateIsPlaying = true;
     public float speed = 5f; // Speed of the missile
     private float duration = 8f;
 
@@ -22,13 +23,23 @@ public class MotherMissileController : MonoBehaviour
         {
             DestroyObject();
         }
+        else if (state.ToString() == "Playing")
+        {
+            stateIsPlaying = true;
+        }
+        else
+        {
+            stateIsPlaying = false;
+        }
     }
 
     void Update()
     {
         // Move the missile downwards
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-
+        if (stateIsPlaying)
+        {
+            transform.Translate(Vector3.down * speed * Time.deltaTime);
+        }
         Invoke("DestroyObject", duration);
     }
 

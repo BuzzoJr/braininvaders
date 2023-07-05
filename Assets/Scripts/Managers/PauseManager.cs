@@ -29,11 +29,8 @@ public class PauseManager : MonoBehaviour
         }
         else
         {
+            isPaused = false;
             transform.GetChild(0).gameObject.SetActive(false);
-            if(currentState == "GameOver")
-            {
-                isPaused = false;
-            }
         }
     }
     // Start is called before the first frame update
@@ -61,10 +58,12 @@ public class PauseManager : MonoBehaviour
         {
             if (isPaused)
             {
+                Time.timeScale = 1;
                 ResumeButton();
             }
             else if(currentState == "Playing")
             {
+                Time.timeScale = 0;
                 GameManager.Instance.UpdateGameState(GameManager.GameState.Pausing);
             }
         }

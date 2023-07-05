@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Level5Manager : MonoBehaviour
 {
     public DialogController dialogController;
     public GameObject postProcessing;
     private AudioSource victoryMusic;
+    public AudioMixer audioMixer;
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,7 +32,17 @@ public class Level5Manager : MonoBehaviour
         {
             VictoryDialog();
             postProcessing.SetActive(false);
+            audioMixer.SetFloat("GamePitch", 1f);
             victoryMusic.Play();
+        }
+
+        if(state.ToString() == "Playing" || state.ToString() == "Dialog")
+        {
+            audioMixer.SetFloat("GamePitch", 0.6f);
+        }
+        else
+        {
+            audioMixer.SetFloat("GamePitch", 1f);
         }
     }
 

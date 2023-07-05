@@ -18,6 +18,8 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: bdea2f870b2abb04795078ddf6899064
     name: GlobalVolume
+  - guid: 0c9931d035ec6dd439a468791a8b791a
+    name: GamePitch
   m_AudioMixerGroupViews:
   - guids:
     - b2d991b6b415f934591615b54c63a4c8
