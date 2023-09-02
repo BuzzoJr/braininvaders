@@ -7,6 +7,9 @@ public class MothershipController : MonoBehaviour
 {
     private bool stateIsPlaying;
     public GameObject projectilePrefab; // The projectile prefab to be instantiated
+    public List<AudioClip> audioClips;
+    private AudioSource audioSource;
+    private int audioIndex = 0;
     private float shootInterval = 0.1f; // Time interval between each shot
     private int numProjectiles = 10; // Number of projectiles to be shot in the cone pattern
     private float coneAngle = 80f; // Angle of the cone pattern in degrees
@@ -27,6 +30,7 @@ public class MothershipController : MonoBehaviour
     void Awake()
     {
         GameManager.OnGameStateChange += GameManagerOnGameStateChange;
+        audioSource = GetComponent<AudioSource>();
     }
     void OnDestroy()
     {
@@ -135,6 +139,7 @@ public class MothershipController : MonoBehaviour
                     Instantiate(projectilePrefab, transform.position, rotation);
                     Instantiate(projectilePrefab, transform.position, rotation2);
                     Instantiate(projectilePrefab, transform.position, rotation3);
+                    PlaySound();
                     yield return new WaitForSeconds(shootInterval);
                 }
             }else if(pattern == 2) // 2 CONE
@@ -157,6 +162,7 @@ public class MothershipController : MonoBehaviour
                         Instantiate(projectilePrefab, pointRight, rotationRight);
                         Instantiate(projectilePrefab, pointLeft, rotationLeft);
                         yield return new WaitForSeconds(shootInterval);
+                        PlaySound();
                     }
                     yield return new WaitForSeconds(1f);
                 }
@@ -174,10 +180,13 @@ public class MothershipController : MonoBehaviour
                     {
                         Quaternion rotation = Quaternion.Euler(0f, 0f, startAngle + (angleStep * i));
                         Instantiate(projectilePrefab, transform.position, rotation);
+
                     }
+                    PlaySound();
                     yield return new WaitForSeconds(shootInterval);
                 }
             }
+            audioIndex = 0;
         }
     }
 
@@ -191,6 +200,15 @@ public class MothershipController : MonoBehaviour
             {
                 GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
             }
+        }
+    }
+
+    private void PlaySound(){
+        audioSource.PlayOneShot(audioClips[audioIndex]);
+        if(audioIndex >= 2){
+            audioIndex = 0;
+        }else{
+            audioIndex++;
         }
     }
 }
